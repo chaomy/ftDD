@@ -25,11 +25,15 @@ using std::setprecision;
 
 class ftDD {
  private:
-  FitVariable dpar;  // fitted parameters
+  FitVariable dpar;  // parameters to fit
   MatConstant mcns;  // materials constant
 
-  vector<double> ini, lob, hib, deb;
-  vector<string> cases;  // cases to fit
+  vector<double> ini;  // initial values
+  vector<double> lob;  // lower bound of variables
+  vector<double> hib;  // upper bound of variables
+  vector<double> deb;  // delta = upper - lower
+
+  vector<string> cases;  // job cases to fit
 
   unordered_map<string, vector<double>> weigh;  // weighs of data
   unordered_map<string, vector<double>> toltm;  // total time
@@ -39,8 +43,8 @@ class ftDD {
   unordered_map<string, vector<double>> flxtl;  // total flux
   unordered_map<string, vector<double>> vlc;    // total velocity
   unordered_map<string, vector<double>> ftvlc;  // fitted velocity
-  unordered_map<string, DDfcc> dd;
-  unordered_map<string, double> dnsprc;  // map type to precinfo
+  unordered_map<string, DDfcc> fccslips;        // fcc density on each slips
+  unordered_map<string, double> dnsprc;  // density of precipitate precinfo
 
   unordered_map<string, double> dparams;  // param name - params (double)
   unordered_map<string, string> sparams;  // param name - params (string)
@@ -76,13 +80,13 @@ class ftDD {
   // write time, stress, density, velocity and fitted velocity
   void writeFitData(const vector<string>&);
 
-  // write fitting variables
+  // write fitted variables 
   void writeResults();
 
-  // to make the fitting target more smooth (not used)
+  // make the fitting target more smooth (no need to use)
   void smthave(const string&);
 
-  // to make the fitting target more smooth (not used)
+  // make the fitting target more smooth (no need to use)
   void smthave(vector<double>&, const int);
 
   // load ParaDiS flux results (FCC)
@@ -97,16 +101,16 @@ class ftDD {
   // Using Linear mobility Law for different strian rate case
   void optErate(const vector<string>&);
 
-  //
+  // fit all parameters, including mobility, alpha and beta
   void optPrec(const vector<string>&);
 
-  //
+  // fix mobility, fit Alpha
   void optFixMob(const vector<string>&);
 
-  //
-  void optFixMobAlpha(const vector<string>&); 
+  // fix both mobility and Alpha
+  void optFixMobAlpha(const vector<string>&);
 
-  //
+  // fix all
   void optFixAll(const vector<string>&);
 
   // set low and high bounds for fitting variables

@@ -1,11 +1,15 @@
 
-PFTOOLS   = 
-CINCLUDE  =  -I../include 
 
+# compiler 
 CXX       =  g++
 CPPFLAGS +=  -Wall -g -O3 -std=c++11
-CDLINK    =  -lm -larmadillo -framework Accelerate
 
+# include and link  
+CINCLUDE  =  -I../include 
+CLINK 	  =   
+CDLINK    =  -L${CLINK} -lm -larmadillo -framework Accelerate
+
+# source 
 SRCS = ftDDMain.cpp \
 	   ftDDload.cpp \
 	   ftDDinit.cpp \
@@ -17,6 +21,7 @@ SRCS = ftDDMain.cpp \
 	   ftDDpreprocess.cpp \
 	   ftDDout.cpp  	    
 
+# target
 MAKETARGET 	= ftDD.exe
 
 OBJECTS := $(subst .cpp,.o,${SRCS})

@@ -14,7 +14,6 @@ using std::unordered_map;
 using std::vector;
 
 class DDdat;
-class DDfcc;
 
 // fitting parameters
 struct FitVariable {
@@ -27,16 +26,12 @@ struct MatConstant {
 };
 
 class slip {
-  friend class DDdat;
-  friend class DDfcc;
-
  public:
   string nm;
-  vector<double> b;
-  vector<double> n;
-  vector<double> dns;
-  vector<double> flx;
-
+  vector<double> b;    // burgers
+  vector<double> n;    // plane normal
+  vector<double> dns;  // density
+  vector<double> flx;  // flux
   slip(string nm, vector<double> b, vector<double> n) : nm(nm), b(b), n(n) {}
 };
 

@@ -2,7 +2,7 @@
  * @Author: chaomy
  * @Date:   2018-03-16 14:42:04
  * @Last Modified by:   chaomy
- * @Last Modified time: 2019-01-08 12:43:32
+ * @Last Modified time: 2019-01-21 23:17:11
  */
 
 #include "ftDD.hpp"
@@ -30,11 +30,12 @@ void ftDD::defaultSetup() {
   calobj["mab"] = &ftDD::errLinearPrc;
   calobj["b"] = &ftDD::errLinearMobFixMAlp;
 
-  run["ma"] = &ftDD::optErate;
-  run["a"] = &ftDD::optFixMob; 
-  run["mab"] = &ftDD::optPrec;
-  run["b"] = &ftDD::optFixMobAlpha;
-  run["0"] = &ftDD::optFixAll;
+  run["ma"] = &ftDD::optErate;       // fit mobility and alpha
+  run["a"] = &ftDD::optFixMob;       // fit alpha not mob
+  run["mab"] = &ftDD::optPrec;       // fit all
+  run["b"] = &ftDD::optFixMobAlpha;  // fit only beta
+
+  run["0"] = &ftDD::optFixAll;  // didnot do the fitting
 
   sparams["ptype"] = "ma";
   dparams["burg"] = 2.86e-10;
@@ -89,7 +90,7 @@ void chop_inputs(data_container& data, int start_point) {
 
 void ftDD::prepData(const string& key) {
   // start fitting from the ns data points (only do flow stress)
-  int start_point = 1200;  // ns = 800
+  int start_point = 1200;  // this is determind by specific data
 
   cout << "Total data num " << toltm[key].size() << " use last "
        << toltm[key].size() - start_point << endl;
